@@ -1,0 +1,17 @@
+###############Plain text#########################
+openssl smime -sign -in message/message.txt -out message/message.txt.sgn -signer llaves/eve.cert.pem -inkey llaves/eve.key.pem -text
+openssl smime -encrypt -in message/message.txt.sgn -out message/message.txt.sgn.enc llaves/bob.cert.pem
+openssl smime -decrypt -in message/message.txt.sgn.enc -out receptor/message.txt.sgn -recip llaves/bob.cert.pem -inkey llaves/bob.key.pem
+openssl smime -verify -text -in receptor/message.txt.sgn -noverify -out receptor/message.txt
+openssl smime -pk7out -in receptor/message.txt.sgn | openssl pkcs7 -print_certs -noout
+
+###############PDF#########################
+openssl base64 -in message/spsi_lectures.pdf -out message/spsi_lectures.pdf.base64
+openssl smime -sign -in message/spsi_lectures.pdf.base64 -out message/spsi_lectures.pdf.base64.sgn -signer llaves/eve.cert.pem -inkey llaves/eve.key.pem -text
+openssl smime -encrypt -in message/spsi_lectures.pdf.base64.sgn -out message/spsi_lectures.pdf.base64.sgn.enc llaves/bob.cert.pem
+openssl smime -decrypt -in message/spsi_lectures.pdf.base64.sgn.enc -out receptor/spsi_lectures.pdf.base64.sgn -recip llaves/bob.cert.pem -inkey llaves/bob.key.pem
+openssl smime -verify -text -in receptor/spsi_lectures.pdf.base64.sgn -noverify -out receptor/spsi_lectures.pdf.base64
+openssl smime -pk7out -in receptor/spsi_lectures.pdf.base64.sgn | openssl pkcs7 -print_certs -noout
+openssl base64 -d -in receptor/spsi_lectures.pdf.base64 -out receptor/spsi_lectures.pdf
+
+
