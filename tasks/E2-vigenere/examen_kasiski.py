@@ -1,24 +1,23 @@
 import re
 
 NONLETTERS_PATTERN = re.compile('[^A-Z]')
-MAX_KEY_LENGTH = 16
+LONG_MAXIMA = 10
 
 def examenKasiski(texto):
     secuenciasRepetidas = encontrarSecuenciasRepetidas(texto)
-    print(secuenciasRepetidas)
     factores = {}
     for secuencia in secuenciasRepetidas:
         factores[secuencia] = []
         for espacio in secuenciasRepetidas[secuencia]:
-            factores[secuencia].extend(encontrarFactoresEnteros(espacio))
+            factores[secuencia].extend(encontrarFactores(espacio))
 
-    factoresByCount = ordenarFactoresComunes(factores)
+    factoresOrdenados = ordenarFactoresComunes(factores)
 
-    allLikelyKeyLengths = []
-    for twoIntTuple in factoresByCount:
-        allLikelyKeyLengths.append(twoIntTuple[0])
+    LongitudesPosibles = []
+    for factor in factoresOrdenados:
+        LongitudesPosibles.append(factor[0])
 
-    return allLikelyKeyLengths
+    return LongitudesPosibles
 
 def encontrarSecuenciasRepetidas(msg):
     espacioEntreSec = {}
@@ -34,18 +33,20 @@ def encontrarSecuenciasRepetidas(msg):
                     espacioEntreSec[secuencia].append(i - inicio)
     return espacioEntreSec
 
-def encontrarFactoresEnteros(num):
-    if num < 2:
+def encontrarFactores(num):
+    if num <= 2:
         return []
 
     factores = []
 
-    for i in range(2, MAX_KEY_LENGTH + 1): # don't test 1
+    for i in range(3, LONG_MAXIMA + 1): 
         if num % i == 0:
             factores.append(i)
             factores.append(int(num / i))
     if 1 in factores:
         factores.remove(1)
+    if 2 in factores:
+        factores.remove(2)
     return list(set(factores))
 
 def ordenarFactoresComunes(secuenciaFactores):
@@ -58,15 +59,18 @@ def ordenarFactoresComunes(secuenciaFactores):
                 cuenta[factor] = 0
             cuenta[factor] += 1
 
-    factoresByCount = []
+    factoresOrdenados = []
     for factor in cuenta:
-        if factor <= MAX_KEY_LENGTH:
-            factoresByCount.append( (factor, cuenta[factor]) )
+        if factor <= LONG_MAXIMA:
+            factoresOrdenados.append( (factor, cuenta[factor]) )
 
-    factoresByCount.sort(key=getItemAtIndexOne, reverse=True)
+    factoresOrdenados.sort(key=getItemAtIndexOne, reverse=True)
 
-    return factoresByCount
+    return factoresOrdenados
 
 def getItemAtIndexOne(x):
     return x[1]
 
+mensaje = "UECWKDVLOTTVACKTPVGEZQMDAMRNPDDUXLBUICAMRHOECBHSPQLVIWOFFEAILPNTESMLDRUURIFAEQTTPXADWIAWLACCRPBHSRZIVQWOFROGTTNNXEVIVIBPDTTGAHVIACLAYKGJIEQHGECMESNNOCTHSGGNVWTQHKBPRHMVUOYWLIAFIRIGDBOEBQLIGWARQHNLOISQKEPEIDVXXNETPAXNZGDXWWEYQCTIGONNGJVHSQGEATHSYGSDVVOAQCXLHSPQMDMETRTMDUXTEQQJMFAEEAAIMEZREGIMUECICBXRVQRSMENNWTXTNSRNBPZHMRVRDYNECGSPMEAVTENXKEQKCTTHSPCMQQHSQGTXMFPBGLWQZRBOEIZHQHGRTOBSGTATTZRNFOSMLEDWESIWDRNAPBFOFHEGIXLFVOGUZLNUSRCRAZGZRTTAYFEHKHMCQNTZLENPUCKBAYCICUBNRPCXIWEYCSIMFPRUTPLXSYCBGCCUYCQJMWIEKGTUBRHVATTLEKVACBXQHGPDZEANNTJZTDRNSDTFEVPDXKTMVNAIQMUQNOHKKOAQMTBKOFSUTUXPRTMXBXNPCLRCEAEOIAWGGVVUSGIOEWLIQFOZKSPVMEBLOHLXDVCYSMGOPJEFCXMRUIGDXNCCRPMLCEWTPZMOQQSAWLPHPTDAWEYJOGQSOAVERCTNQQEAVTUGKLJAXMRTGTIEAFWPTZYIPKESMEAFCGJILSBPLDABNFVRJUXNGQSWIUIGWAAMLDRNNPDXGNPTTGLUHUOBMXSPQNDKBDBTEECLECGRDPTYBVRDATQHKQJMKEFROCLXNFKNSCWANNAHXTRGKCJTTRRUEMQZEAEIPAWEYPAJBBLHUEHMVUNFRPVMEDWEKMHRREOGZBDBROGCGANIUYIBNZQVXTGORUUCUTNBOEIZHEFWNBIGOZGTGWXNRHERBHPHGSIWXNPQMJVBCNEIDVVOAGLPONAPWYPXKEFKOCMQTRTIDZBNQKCPLTTNOBXMGLNRRDNNNQKDPLTLNSUTAXMNPTXMGEZKAEIKAGQ"
+lista = examenKasiski(mensaje)
+print(lista)
