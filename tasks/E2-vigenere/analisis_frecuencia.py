@@ -4,12 +4,12 @@ from prueba_friedman import obtenerCaracteresN, LETRAS
 from cifra_vigenere import traduciMensaje, TEXTO
 
 #frecuencia de aparicion de las letras obtenido de wikipedia
-FRECUENCIAS = { 'E': 12.70, 'T': 9.06, 'A': 8.17, 'O': 7.51, 'I': 6.97,
-                'N': 6.75, 'S': 6.33, 'H': 6.09, 'R': 5.99, 'D': 4.25,
-                'L': 4.03, 'C': 2.78, 'U': 2.76, 'M': 2.41, 'W': 2.36,
-                'F': 2.23, 'G': 2.02, 'Y': 1.97, 'P': 1.93, 'B': 1.29,
-                'V': 0.98, 'K': 0.77, 'J': 0.15, 'X': 0.15, 'Q': 0.10,
-                'Z': 0.07 }
+FRECUENCIAS = { 'E': 12.181, 'T': 4.632, 'A': 11.525, 'O': 8.683, 'I': 6.247,
+                'N': 6.712, 'S': 7.977, 'H': 0.703, 'R': 6.871, 'D': 5.010,
+                'L': 4.967, 'C': 4.019, 'U': 2.927, 'M': 3.157, 'W': 0.017,
+                'F': 0.692, 'G': 1.768, 'Y': 1.008, 'P': 2.510, 'B': 2.215,
+                'V': 1.138, 'K': 0.011, 'J': 0.493, 'X': 0.215, 'Q': 0.877,
+                'Z': 0.467 }
 
 def buscarClave(texto, longitud_clave):
     clave = ""
